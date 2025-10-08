@@ -19,6 +19,7 @@ print(state.__str__())
 
 print("\nPossible next states:\n")
 for next_state in state.moves():
-    print(next_state'\n')
+    print(next_state, '\n')
     
 print(state.numRegions())
+print(state.numHingers())

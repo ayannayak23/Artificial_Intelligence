@@ -36,8 +36,49 @@ class State:
         new_state.grid = [row[:] for row in self.grid]
         return new_state
     
-    def numRegions():
-        numRegions = 0
-        if self.grid[r]-[r+1] and self.grid[c]-[c+1] = 1:
-            numRegions += 1
-        return numRegions
+    def numRegions(self):
+        rows, cols = len(self.grid), len(self.grid[0])
+        visited = [[False for _ in range(cols)] for _ in range(rows)]
+        regions = 0
+    
+        # Helper function for DFS
+        def dfs(r, c):
+            if r < 0 or r >= rows or c < 0 or c >= cols:
+                return
+            if visited[r][c] or self.grid[r][c] == 0:
+                return
+            visited[r][c] = True
+            # explore all 8 directions (horizontal, vertical, diagonal)
+            for dr in [-1, 0, 1]:
+                for dc in [-1, 0, 1]:
+                    if dr != 0 or dc != 0:
+                        dfs(r + dr, c + dc)
+    
+        # main loop to count connected components
+        for r in range(rows):
+            for c in range(cols):
+                if self.grid[r][c] > 0 and not visited[r][c]:
+                    regions += 1
+                    dfs(r, c)
+    
+        return regions
+
+    def numHingers(self):
+        count = 0
+        current_regions = self.numRegions()
+        for r in range(len(self.grid)):
+            for c in range(len(self.grid[0])):
+                if self.grid[r][c] == 1:
+                    # simulate removing this counter
+                    new_state = self.clone()
+                    #Change the specific cell to be 0
+                    new_state.grid[r][c] = 0
+                    
+                    #Check if the new_state creates more regions or not (if yes, it is hinger)
+                    new_regions = new_state.numRegions()
+                        
+                    # if removing this increases the number of regions
+                    if new_regions > current_regions:
+                        count =+ 1
+        return count
+            
