@@ -103,11 +103,23 @@ def compare(start, end):
         result = func(start, end)
         duration = time.time() - start_time
         print(f"{name:6} | Found: {result is not None} | Steps: {len(result) if result else 0} | Time: {duration:.4f}s")
+        
+        
+def print_path(path):
+    if not path:
+        print("No safe path found.\n")
+        return
+    print("Safe path found (", len(path), "steps):")
+    for i, state in enumerate(path):
+        print(f"Step {i}:")
+        print(state)
+        print()
+    print("-" * 25)
 
 
 # --- Tester Function ---
 def tester():
-    print("=== Testing Search Algorithms on Simple Hinger States ===")
+    print("=== Testing Search Algorithms ===")
 
     s1 = State([[1, 1], [0, 1]])
     s2 = State([[1, 0], [0, 1]])
@@ -116,19 +128,19 @@ def tester():
     print("End:\n", s2)
 
     print("\n--- BFS ---")
-    print(path_BFS(s1, s2))
+    print_path(path_BFS(s1, s2))
 
     print("\n--- DFS ---")
-    print(path_DFS(s1, s2))
+    print_path(path_DFS(s1, s2))
 
     print("\n--- IDDFS ---")
-    print(path_IDDFS(s1, s2))
+    print_path(path_IDDFS(s1, s2))
 
-    print("\n--- A* ---")
-    print(path_astar(s1, s2))
+    # print("\n--- A* ---")
+    # print(path_astar(s1, s2))
 
-    print("\n--- Compare Algorithms ---")
-    compare(s1, s2)
+    # print("\n--- Compare Algorithms ---")
+    # compare(s1, s2)
 
 
 if __name__ == "__main__":
