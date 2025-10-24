@@ -79,6 +79,6 @@ class State:
                         
                     # if removing this increases the number of regions
                     if new_regions > current_regions:
-                        count =+ 1
+                        count += 1
         return count
             
