@@ -3,7 +3,7 @@
 Task 4: Game Loop for Hinger Game
 Implements the complete game flow with win/draw/illegal move detection.
 
-@author: GitHub Copilot
+@author: Ahmed
 """
 
 from a1_state import State

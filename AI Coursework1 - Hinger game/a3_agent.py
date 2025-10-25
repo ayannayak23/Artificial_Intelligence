@@ -3,7 +3,8 @@
 Task 3: Agent for Hinger Game
 Implements minimax and alpha-beta pruning strategies.
 
-@author: GitHub Copilot
+@author: Ahmed
+
 """
 
 from a1_state import State
