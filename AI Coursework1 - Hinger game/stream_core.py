@@ -46,14 +46,14 @@ def board_cleared(state: State) -> bool:
 def print_board(state: State, title: str, move: Optional[Tuple[int, int]] = None,
                 hinger: bool = False, nodes: Optional[int] = None) -> None:
     """Print board with turn title and optional move details."""
-    print(f"\n--- {title} ---")
+    line = f"\n{title}"
     if move is not None:
-        info = f"Move: {move}"
+        line += f" | move {move}"
         if hinger:
-            info += " [HINGER!]"
+            line += " [HINGER!]"
         if nodes is not None:
-            info += f" (searched {nodes} nodes)"
-        print(info)
+            line += f" | {nodes} nodes"
+    print(line)
     print(state)
 
 
