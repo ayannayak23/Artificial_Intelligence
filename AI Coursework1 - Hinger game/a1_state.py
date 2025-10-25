@@ -81,4 +81,56 @@ class State:
                     if new_regions > current_regions:
                         count += 1
         return count
+    
+    def get_active_cells(self):
+        #Return a list of (r, c) coordinates of active (non-zero) cells.
+        active = []
+        for r in range(len(self.grid)):
+            for c in range(len(self.grid[0])):
+                if self.grid[r][c] > 0:
+                    active.append((r, c))
+        return active
+    
+    def is_empty(self):
+        #Return True if all cells are empty."""
+        return all(cell == 0 for row in self.grid for cell in row)
             
+def tester():
+    grid = [
+        [1, 1, 0, 0, 2],
+        [0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 0],
+        [0, 2, 1, 1, 1],
+    ]
+    
+    test_grid = State(grid)
+    
+    print(test_grid)
+    print("Number of regions:", test_grid.numRegions())
+    print("Number of hingers:", test_grid.numHingers())
+    print("Active cells:", test_grid.get_active_cells())
+    print("Is empty?:", test_grid.is_empty())
+    
+    # Test to find all possible moves
+    print("\n=== Possible Moves ===")
+    for i, next_state in enumerate(test_grid.moves(), 1):
+        print(f"Move {i}:")
+        print(next_state)
+        print("---")
+        
+    # Test empty board
+    empty = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    empty_grid = State(empty)
+    
+    print("\n=== Empty Board ===")
+    print(empty_grid)
+    print("Is empty?:", empty_grid.is_empty())
+    
+#Ensure the tester to be executed after 
+if __name__ == "__main__":
+    tester()
