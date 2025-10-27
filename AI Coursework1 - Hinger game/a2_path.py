@@ -13,15 +13,14 @@ from a1_state import State
 def path_BFS(start, end):
     visited = set()
     queue = deque([(start, [start])])
-    
+
     while queue:
         state, path = queue.popleft()
         if state.grid == end.grid:
             return path
-        
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            if str(move.grid) not in visited and is_safe_transition(state, move):
                 queue.append((move, path + [move]))
     return None
 
@@ -35,10 +34,9 @@ def path_DFS(start, end):
         state, path = stack.pop()
         if state.grid == end.grid:
             return path
-        
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            if str(move.grid) not in visited and is_safe_transition(state, move):
                 stack.append((move, path + [move]))
     return None
 
@@ -52,7 +50,7 @@ def path_IDDFS(start, end, max_depth=10):
             return path
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            if str(move.grid) not in visited and is_safe_transition(state, move):
                 result = dfs_limit(move, end, path + [move], depth - 1, visited)
                 if result:
                     return result
@@ -76,22 +74,25 @@ def path_astar(start, end):
         return diff
 
     open_set = []
-    heapq.heappush(open_set, (0, start, [start]))
     g_score = {str(start.grid): 0}
+    counter = 0  # tie-breaker
+    heapq.heappush(open_set, (0, counter, start, [start]))
 
     while open_set:
-        _, current, path = heapq.heappop(open_set)
+        _, _, current, path = heapq.heappop(open_set)
         if current.grid == end.grid:
             return path
 
         for move in current.moves():
-            if move.numHingers() == 0:
+            if is_safe_transition(current, move):
                 cost = g_score[str(current.grid)] + 1
                 if str(move.grid) not in g_score or cost < g_score[str(move.grid)]:
                     g_score[str(move.grid)] = cost
                     f = cost + heuristic(move, end)
-                    heapq.heappush(open_set, (f, move, path + [move]))
+                    counter += 1
+                    heapq.heappush(open_set, (f, counter, move, path + [move]))
     return None
+
 
 
 # --- Compare Algorithms ---
@@ -103,7 +104,16 @@ def compare(start, end):
         result = func(start, end)
         duration = time.time() - start_time
         print(f"{name:6} | Found: {result is not None} | Steps: {len(result) if result else 0} | Time: {duration:.4f}s")
-        
+ 
+    
+def is_safe_transition(current, next_state):
+    """A safe transition avoids hingers and does not increase active regions."""
+    if current.numHingers() > 0 or next_state.numHingers() > 0:
+        return False
+    if next_state.numRegions() > current.numRegions():
+        return False
+    return True
+
         
 def print_path(path):
     if not path:
@@ -114,15 +124,22 @@ def print_path(path):
         print(f"Step {i}:")
         print(state)
         print()
-    print("-" * 25)
+    print("------------------------")
 
 
 # --- Tester Function ---
 def tester():
     print("=== Testing Search Algorithms ===")
 
-    s1 = State([[1, 1], [0, 1]])
-    s2 = State([[1, 0], [0, 1]])
+    s1 = State([[1, 1, 0, 0, 0],
+                [2, 0, 2, 1, 1],
+                [1, 0, 0, 0, 1],
+                [0, 0, 1, 2, 1]])
+    
+    s2 = State([[1, 1, 0, 0, 0],
+                [2, 0, 2, 1, 1],
+                [1, 0, 0, 0, 1],
+                [0, 0, 0, 2, 0]])
 
     print("Start:\n", s1)
     print("End:\n", s2)
@@ -136,11 +153,11 @@ def tester():
     print("\n--- IDDFS ---")
     print_path(path_IDDFS(s1, s2))
 
-    # print("\n--- A* ---")
-    # print(path_astar(s1, s2))
+    print("\n--- A* ---")
+    print_path(path_astar(s1, s2))
 
-    # print("\n--- Compare Algorithms ---")
-    # compare(s1, s2)
+    print("\n--- Compare Algorithms ---")
+    compare(s1, s2)
 
 
 if __name__ == "__main__":
