@@ -15,7 +15,7 @@ class State:
             self.grid = [row[:] for row in grid]
 
     def __str__(self):
-        #Display out the visualization of the grid
+        # Display the visualization of the grid
         lines = []
         for row in self.grid:
             line = " ".join(str(cell) for cell in row)
@@ -23,12 +23,12 @@ class State:
         return "\n".join(lines)
 
     def moves(self):
-        #Generator: yields all possible next states (one counter removed).
-        for r in range(len(self.grid)):
-            for c in range(len(self.grid[0])):
-                if self.grid[r][c] > 0:
+        # Generator: yields all possible next states (one counter removed).
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] > 0:
                     new_state = self.clone()
-                    new_state.grid[r][c] -= 1
+                    new_state.grid[i][j] -= 1
                     yield new_state 
     
     def clone(self):
@@ -42,57 +42,54 @@ class State:
         regions = 0
     
         # Helper function for DFS
-        def dfs(r, c):
-            if r < 0 or r >= rows or c < 0 or c >= cols:
+        def dfs(i, j):
+            if i < 0 or i >= rows or j < 0 or j >= cols:
                 return
-            if visited[r][c] or self.grid[r][c] == 0:
+            if visited[i][j] or self.grid[i][j] == 0:
                 return
-            visited[r][c] = True
+            visited[i][j] = True
             # explore all 8 directions (horizontal, vertical, diagonal)
-            for dr in [-1, 0, 1]:
-                for dc in [-1, 0, 1]:
-                    if dr != 0 or dc != 0:
-                        dfs(r + dr, c + dc)
+            for di in [-1, 0, 1]:
+                for dj in [-1, 0, 1]:
+                    if di != 0 or dj != 0:
+                        dfs(i + di, j + dj)
     
         # main loop to count connected components
-        for r in range(rows):
-            for c in range(cols):
-                if self.grid[r][c] > 0 and not visited[r][c]:
+        for i in range(rows):
+            for j in range(cols):
+                if self.grid[i][j] > 0 and not visited[i][j]:
                     regions += 1
-                    dfs(r, c)
+                    dfs(i, j)
     
         return regions
 
     def numHingers(self):
         count = 0
         current_regions = self.numRegions()
-        for r in range(len(self.grid)):
-            for c in range(len(self.grid[0])):
-                if self.grid[r][c] == 1:
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] == 1:
                     # simulate removing this counter
                     new_state = self.clone()
-                    #Change the specific cell to be 0
-                    new_state.grid[r][c] = 0
-                    
-                    #Check if the new_state creates more regions or not (if yes, it is hinger)
+                    # Change the specific cell to be 0
+                    new_state.grid[i][j] = 0
+                    # Check if the new_state creates more regions
                     new_regions = new_state.numRegions()
-                        
-                    # if removing this increases the number of regions
                     if new_regions > current_regions:
                         count += 1
         return count
     
     def get_active_cells(self):
-        #Return a list of (r, c) coordinates of active (non-zero) cells.
+        # Return a list of (i, j) coordinates of active (non-zero) cells.
         active = []
-        for r in range(len(self.grid)):
-            for c in range(len(self.grid[0])):
-                if self.grid[r][c] > 0:
-                    active.append((r, c))
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] > 0:
+                    active.append((i, j))
         return active
     
     def is_empty(self):
-        #Return True if all cells are empty."""
+        # Return True if all cells are empty.
         return all(cell == 0 for row in self.grid for cell in row)
             
 def tester():
@@ -113,8 +110,8 @@ def tester():
     
     # Test to find all possible moves
     print("\n=== Possible Moves ===")
-    for i, next_state in enumerate(test_grid.moves(), 1):
-        print(f"Move {i}:")
+    for k, next_state in enumerate(test_grid.moves(), 1):
+        print(f"Move {k}:")
         print(next_state)
         print("---")
         
@@ -131,6 +128,5 @@ def tester():
     print(empty_grid)
     print("Is empty?:", empty_grid.is_empty())
     
-#Ensure the tester to be executed after 
 if __name__ == "__main__":
     tester()
