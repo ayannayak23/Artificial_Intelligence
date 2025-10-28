@@ -8,22 +8,23 @@ Created on Wed Oct  8 04:29:16 2025
 class State:
     size = 5
     
+    # Initialize a State oobject.
     def __init__(self, grid=None, size=5):
         if grid is None:
             self.grid = [[0 for _ in range(size)] for _ in range(size)]
         else:
             self.grid = [row[:] for row in grid]
 
+    # Return a string representation of the grid
     def __str__(self):
-        # Display the visualization of the grid
         lines = []
         for row in self.grid:
             line = " ".join(str(cell) for cell in row)
             lines.append(line)
         return "\n".join(lines)
 
+    # Generator that yields all possible next states (Calculating by removing one counter from any non-zero cell)
     def moves(self):
-        # Generator: yields all possible next states (one counter removed).
         for i in range(len(self.grid)):
             for j in range(len(self.grid[0])):
                 if self.grid[i][j] > 0:
@@ -31,17 +32,19 @@ class State:
                     new_state.grid[i][j] -= 1
                     yield new_state 
     
+    # Create a copy of the current state (current grid)
     def clone(self):
         new_state = State(None)
         new_state.grid = [row[:] for row in self.grid]
         return new_state
     
+    # Counts the numner of regions of non-zero cell
     def numRegions(self):
         rows, cols = len(self.grid), len(self.grid[0])
         visited = [[False for _ in range(cols)] for _ in range(rows)]
         regions = 0
     
-        # Helper function for DFS
+        # Use DFS to explore connected cells
         def dfs(i, j):
             if i < 0 or i >= rows or j < 0 or j >= cols:
                 return
@@ -54,7 +57,7 @@ class State:
                     if di != 0 or dj != 0:
                         dfs(i + di, j + dj)
     
-        # main loop to count connected components
+        # Counts regions by applying DFS to unvisited non-zero cells
         for i in range(rows):
             for j in range(cols):
                 if self.grid[i][j] > 0 and not visited[i][j]:
@@ -63,6 +66,7 @@ class State:
     
         return regions
 
+    # Counts the number of hingers (a cell with 1 counter, by removing it increases the number of regions) in the grid
     def numHingers(self):
         count = 0
         current_regions = self.numRegions()
@@ -79,6 +83,7 @@ class State:
                         count += 1
         return count
     
+    # Return a list of coordinates of all non-zero cells
     def get_active_cells(self):
         # Return a list of (i, j) coordinates of active (non-zero) cells.
         active = []
@@ -88,10 +93,12 @@ class State:
                     active.append((i, j))
         return active
     
+    # Check if all cells in the grid are zero by returning True and False
     def is_empty(self):
         # Return True if all cells are empty.
         return all(cell == 0 for row in self.grid for cell in row)
-            
+
+# Function to test the State class and methods
 def tester():
     grid = [
         [1, 1, 0, 0, 2],
@@ -102,10 +109,15 @@ def tester():
     
     test_grid = State(grid)
     
+    # Display the grid
     print(test_grid)
+    # Number of connected regions
     print("Number of regions:", test_grid.numRegions())
+    # Number of hingers
     print("Number of hingers:", test_grid.numHingers())
+    # List of active cells
     print("Active cells:", test_grid.get_active_cells())
+    # Check if the grid is empty
     print("Is empty?:", test_grid.is_empty())
     
     # Test to find all possible moves
@@ -115,7 +127,7 @@ def tester():
         print(next_state)
         print("---")
         
-    # Test empty board
+    # Test an empty board
     empty = [
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
@@ -128,5 +140,6 @@ def tester():
     print(empty_grid)
     print("Is empty?:", empty_grid.is_empty())
     
+# Call a tester function only when this file is executed
 if __name__ == "__main__":
     tester()
