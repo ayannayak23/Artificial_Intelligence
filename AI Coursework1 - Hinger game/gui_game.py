@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-# GUI for Hinger Game using Tkinter
-# Supports Human vs Agent (3x3) and Agent vs Agent (5x5) with move counters and timeouts
+"""
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
+
+GUI for Hinger Game using Tkinter
+Implements a Tkinter-based GUI supporting Human vs Agent (3x3) and Agent vs Agent (5x5) modes, including move counters, timers, and timeout handling.
+
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 20/10/2025
+"""
 
 import tkinter as tk
 from tkinter import ttk, messagebox
