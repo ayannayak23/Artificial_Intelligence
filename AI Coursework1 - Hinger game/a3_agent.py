@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Task 3: Agent for Hinger Game
-Implements minimax and alpha-beta pruning strategies.
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
 
-@author: Ahmed
+Task 3: Agent
+Implements decision-making strategies using minimax and alpha-beta pruning algorithms.
+
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 20/10/2025
 
 """
 
