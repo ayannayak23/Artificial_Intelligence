@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Tests for a4_game.py play() function
-"""
+# Tests for a4_game.py play() function
+# Verifies game flow, win conditions, and illegal move handling
 
 import sys
 from pathlib import Path
@@ -13,7 +12,8 @@ from a4_game import play
 
 
 def test_immediate_hinger():
-    """Test: Agent vs Agent with immediate hinger available."""
+    # Test: Agent vs Agent with immediate hinger available
+    # First player (AgentA) should win by taking hinger immediately
     print("\n--- Test A: Immediate Hinger ---")
     grid = [
         [1, 0, 1],
@@ -34,7 +34,8 @@ def test_immediate_hinger():
 
 
 def test_draw():
-    """Test: Agent vs Agent with no hingers (draw scenario)."""
+    # Test: Agent vs Agent with no hingers (draw scenario)
+    # Board gets cleared without any hinger being played -> draw
     print("\n--- Test B: Draw (No Hingers) ---")
     grid = [
         [2, 2, 0],
@@ -55,15 +56,17 @@ def test_draw():
 
 
 def test_illegal_move():
-    """Test: Illegal move handling."""
+    # Test: Illegal move handling
+    # DummyAgent makes out-of-bounds move -> opponent wins
     print("\n--- Test C: Illegal Move Handling ---")
     
     class DummyAgent:
+        # Agent that always returns illegal move (out of bounds)
         def __init__(self, name="Dummy"):
             self.name = name
         
         def move(self, state):
-            return (-1, 99)  # Out of bounds
+            return (-1, 99)  # Intentionally illegal coordinates
     
     grid = [
         [1, 1],
@@ -75,6 +78,7 @@ def test_illegal_move():
     dummy = DummyAgent(name="BadAgent")
     agentE = Agent(size=(2, 2), name="GoodAgent")
     
+    # DummyAgent plays first but makes illegal move
     winner = play(state, dummy, agentE)
     print(f"Result: {winner}")
     assert winner == "GoodAgent", f"Expected GoodAgent, got {winner}"
@@ -82,6 +86,7 @@ def test_illegal_move():
 
 
 if __name__ == "__main__":
+    # Run all game tests
     print("=" * 60)
     print("a4_game.py Tests")
     print("=" * 60)

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Demo: Complete Hinger Game System
-Demonstrates all components working together.
-"""
+# Demo: Complete Hinger Game System
+# Demonstrates all components working together
 
 from a1_state import State
 from a3_agent import Agent
@@ -10,7 +8,7 @@ from a4_game import play
 
 
 def demo():
-    """Run a complete demonstration of the Hinger game system."""
+    # Run a complete demonstration of the Hinger game system
     
     print("=" * 70)
     print(" HINGER GAME - COMPLETE SYSTEM DEMONSTRATION")
@@ -19,6 +17,7 @@ def demo():
     # Demo 1: Quick win with hingers
     print("\n[DEMO 1] Agent vs Agent - Immediate Hinger Win")
     print("-" * 70)
+    # Grid with multiple hingers (value=1 cells)
     grid1 = [
         [1, 0, 1],
         [1, 0, 1],
@@ -29,6 +28,7 @@ def demo():
     print(state1)
     print(f"\nHingers available: {state1.numHingers()}")
     
+    # Create two agents
     ahmed = Agent(size=(3, 3), name="Ahmed")
     ayan = Agent(size=(3, 3), name="Ayan")
     
@@ -41,6 +41,7 @@ def demo():
     print("\n" + "=" * 70)
     print("[DEMO 2] Agent vs Agent - Strategic Play to Draw")
     print("-" * 70)
+    # Grid with no hingers (all 2s and 0s)
     grid2 = [
         [2, 2, 0],
         [2, 2, 2],
@@ -51,6 +52,7 @@ def demo():
     print(state2)
     print(f"\nHingers available: {state2.numHingers()}")
     
+    # Create two more agents
     ith = Agent(size=(3, 3), name="Ith")
     manwel = Agent(size=(3, 3), name="Manwel")
 

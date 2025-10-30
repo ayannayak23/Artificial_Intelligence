@@ -11,12 +11,12 @@ from a1_state import State
 
 
 class Agent:
-    """
-    Intelligent agent for Hinger game using minimax or alpha-beta search.
-    Coordinates are zero-indexed: (row, col) with (0,0) at top-left.
-    """
     
-    def __init__(self, size, name="A9"):
+    # Intelligent agent for Hinger game using minimax or alpha-beta search.
+    # Coordinates are zero-indexed: (row, col) with (0,0) at top-left.
+    
+    
+    def __init__(self, size, name="B9"):
         """Initialize agent with board size and name."""
         self.size = size
         self.name = name
@@ -26,6 +26,7 @@ class Agent:
         return f"Agent({self.name})"
     
     def move(self, state, mode="alphabeta", depth=4):
+
         """
         Select best move for current state.
         
@@ -37,6 +38,7 @@ class Agent:
         Returns:
             (row, col) tuple or None if no legal moves
         """
+
         self.nodes_searched = 0
         legal_moves = self._list_legal_moves(state)
         
@@ -59,7 +61,9 @@ class Agent:
         return best_move
     
     def _list_legal_moves(self, state):
-        """Generate legal moves as (row, col, is_hinger) tuples, hingers first."""
+
+        # Generate legal moves as (row, col, is_hinger) tuples, hingers first.
+
         moves = []
         current_regions = state.numRegions()
         
@@ -78,7 +82,9 @@ class Agent:
         return moves
     
     def _evaluate(self, state):
-        """Heuristic: current hingers minus estimated opponent hingers."""
+
+        # Heuristic: current hingers minus estimated opponent hingers.
+
         current_hingers = state.numHingers()
         
         legal_moves = self._list_legal_moves(state)
@@ -92,7 +98,9 @@ class Agent:
         return current_hingers - max_opp_hingers
     
     def _minimax(self, state, depth, maximizing):
-        """Minimax search returning (score, move)."""
+
+        # Minimax search returning (score, move).
+
         self.nodes_searched += 1
         legal_moves = self._list_legal_moves(state)
         
@@ -133,7 +141,9 @@ class Agent:
             return (min_eval, best_move)
     
     def _alphabeta(self, state, depth, alpha, beta, maximizing):
-        """Alpha-beta pruning search returning (score, move)."""
+
+        # Alpha-beta pruning search returning (score, move).
+        
         self.nodes_searched += 1
         legal_moves = self._list_legal_moves(state)
         

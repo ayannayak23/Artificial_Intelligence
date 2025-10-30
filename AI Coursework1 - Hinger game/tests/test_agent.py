@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Tests for a3_agent.py Agent class
-"""
+# Tests for a3_agent.py Agent class
+# Verifies minimax and alphabeta move selection in various scenarios
 
 import sys
 from pathlib import Path
@@ -12,8 +11,9 @@ from a3_agent import Agent
 
 
 def test_no_immediate_win():
-    """Test: No immediate win available."""
+    # Test: No immediate win available - agent must search deeper
     print("\n--- Test A: No Immediate Win ---")
+    # Grid with value=1 cells but none are hingers (no region increase)
     grid = [[0, 1, 1], [1, 0, 1], [1, 1, 1]]
     state = State(grid, size=3)
     print(f"Board:\n{state}")
@@ -21,10 +21,12 @@ def test_no_immediate_win():
     
     agent = Agent(size=(3, 3), name="TestAgent")
     
+    # Test minimax at depth 4
     move_mm = agent.move(state, mode="minimax", depth=4)
     print(f"Minimax (depth=4): {move_mm}, nodes: {agent.nodes_searched}")
     assert move_mm is not None, "Should find a move"
     
+    # Test alphabeta at depth 4 (should be faster due to pruning)
     move_ab = agent.move(state, mode="alphabeta", depth=4)
     print(f"Alpha-beta (depth=4): {move_ab}, nodes: {agent.nodes_searched}")
     assert move_ab is not None, "Should find a move"
@@ -32,8 +34,9 @@ def test_no_immediate_win():
 
 
 def test_multiple_hingers():
-    """Test: Multiple immediate wins (hingers) available."""
+    # Test: Multiple immediate wins (hingers) available - agent should pick one
     print("\n--- Test B: Multiple Immediate Wins ---")
+    # Grid with several value=1 cells that increase regions when removed
     grid = [[1, 0, 1], [1, 0, 1], [1, 1, 1]]
     state = State(grid, size=3)
     print(f"Board:\n{state}")
@@ -41,15 +44,18 @@ def test_multiple_hingers():
     
     agent = Agent(size=(3, 3), name="TestAgent")
     
+    # Minimax should pick a hinger
     move_mm = agent.move(state, mode="minimax", depth=4)
     assert move_mm is not None, "Should find a hinger move"
     r, c = move_mm
+    # Verify it's actually a hinger (value=1 and increases regions)
     test_state = state.clone()
     test_state.grid[r][c] = 0
     is_hinger = state.grid[r][c] == 1 and test_state.numRegions() > state.numRegions()
     assert is_hinger, f"Move {move_mm} should be a hinger"
     print(f"Minimax picked hinger at {move_mm} [OK]")
     
+    # Alpha-beta should also pick a hinger
     move_ab = agent.move(state, mode="alphabeta", depth=4)
     assert move_ab is not None, "Should find a hinger move"
     r, c = move_ab
@@ -61,8 +67,9 @@ def test_multiple_hingers():
 
 
 def test_neutral_midgame():
-    """Test: Neutral midgame with no hingers."""
+    # Test: Neutral midgame with no hingers - strategic decision needed
     print("\n--- Test C: Neutral Midgame (No Hingers) ---")
+    # Grid with only value=2 cells and zeros (no hingers possible)
     grid = [[2, 2, 0], [2, 2, 2], [0, 2, 2]]
     state = State(grid, size=3)
     print(f"Board:\n{state}")
@@ -70,6 +77,7 @@ def test_neutral_midgame():
     
     agent = Agent(size=(3, 3), name="TestAgent")
     
+    # Test with lower depth (3) for reasonable performance
     move_mm = agent.move(state, mode="minimax", depth=3)
     print(f"Minimax (depth=3): {move_mm}, nodes: {agent.nodes_searched}")
     assert move_mm is not None, "Should find a move"
@@ -81,6 +89,7 @@ def test_neutral_midgame():
 
 
 if __name__ == "__main__":
+    # Run all agent tests
     print("=" * 60)
     print("a3_agent.py Tests")
     print("=" * 60)
