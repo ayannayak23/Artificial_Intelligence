@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-# Human vs Agent — 3x3 Streamed Game
-# Interactive gameplay where human plays as A against bot
+"""
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
+
+Human vs Agent Streamed Game
+Runs a 3x3 streamed Hinger game: human (A) vs agent (B) with automated moves.
+
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 20/10/2025
+"""
 
 from a1_state import State
 from a3_agent import Agent
