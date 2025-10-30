@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-# Agent vs Agent — 5x5 Streamed Game
-# Demonstrates agent gameplay on a larger board with visual updates
+"""
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
+
+Agent vs Agent Streamed Game (5x5)
+Demonstrates a 5x5 Hinger game between two agents.
+
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 20/10/2025
+"""
 
 from a1_state import State
 from a3_agent import Agent
