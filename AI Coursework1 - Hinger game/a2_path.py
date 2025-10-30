@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 19 15:14:41 2025
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
 
-@author: Ayan
+Implements search algorithms (BFS, DFS, IDDFS, and A*) for Task 2.
+
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 19/10/2025
 """
 
 from collections import deque
