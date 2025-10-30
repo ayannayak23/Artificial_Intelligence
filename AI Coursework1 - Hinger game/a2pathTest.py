@@ -9,6 +9,26 @@ from collections import deque
 import heapq
 from a1_state import State
 
+
+# Helper function to check if a move is a hinger move
+# A safe path must not include any hinger moves (moves where removing a
+# cell with value=1 increases the number of regions)
+def _is_hinger_move(state_before, state_after):
+    # A hinger move is one where a cell with value=1 is removed
+    # AND it increases the number of regions
+    regions_before = state_before.numRegions()
+    regions_after = state_after.numRegions()
+    
+    # Find which cell was removed (decreased)
+    for r in range(len(state_before.grid)):
+        for c in range(len(state_before.grid[0])):
+            if state_before.grid[r][c] > state_after.grid[r][c]:
+                # This cell was removed/decreased
+                # Check if it was a hinger: value was 1 AND regions increased
+                if state_before.grid[r][c] == 1 and regions_after > regions_before:
+                    return True
+    return False
+
 # --- (BFS) ---
 def path_BFS(start, end):
     visited = set()
@@ -21,7 +41,8 @@ def path_BFS(start, end):
         
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            # Check: resulting state has no hingers AND the move to get there wasn't a hinger
+            if str(move.grid) not in visited and move.numHingers() == 0 and not _is_hinger_move(state, move):
                 queue.append((move, path + [move]))
     return None
 
@@ -38,7 +59,8 @@ def path_DFS(start, end):
         
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            # Check: resulting state has no hingers AND the move to get there wasn't a hinger
+            if str(move.grid) not in visited and move.numHingers() == 0 and not _is_hinger_move(state, move):
                 stack.append((move, path + [move]))
     return None
 
@@ -52,7 +74,8 @@ def path_IDDFS(start, end, max_depth=10):
             return path
         visited.add(str(state.grid))
         for move in state.moves():
-            if str(move.grid) not in visited and move.numHingers() == 0:
+            # Check: resulting state has no hingers AND the move to get there wasn't a hinger
+            if str(move.grid) not in visited and move.numHingers() == 0 and not _is_hinger_move(state, move):
                 result = dfs_limit(move, end, path + [move], depth - 1, visited)
                 if result:
                     return result
@@ -88,7 +111,8 @@ def path_astar(start, end):
             return path
 
         for move in current.moves():
-            if move.numHingers() == 0:
+            # Check: resulting state has no hingers AND the move to get there wasn't a hinger
+            if move.numHingers() == 0 and not _is_hinger_move(current, move):
                 cost = g_score[str(current.grid)] + 1
                 if str(move.grid) not in g_score or cost < g_score[str(move.grid)]:
                     g_score[str(move.grid)] = cost
@@ -130,8 +154,8 @@ def min_safe(start, end):
         
         # Explore neighbors
         for move in current.moves():
-            # Safety check: only consider moves with no hingers
-            if move.numHingers() == 0:
+            # Safety check: only consider moves with no hingers AND the move itself isn't a hinger
+            if move.numHingers() == 0 and not _is_hinger_move(current, move):
                 # Calculate move cost: sum of all values that decreased
                 # (In Hinger, each move removes one cell, so cost = cell value)
                 move_cost = 0
