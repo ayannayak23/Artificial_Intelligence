@@ -3,7 +3,8 @@
 Hinger Project
 Coursework 001 for: CMP-6058A Artificial Intelligence
 
-Defines the State class for Task 1
+Task 1: State
+Defines the State class used to represent and manipulate grid-based game states.
 
 @author: B9 (1004411839, 100434969, and 100440712)
 @date: 08/10/2025
@@ -147,5 +148,6 @@ def tester():
 # Call a tester function only when this file is executed
 if __name__ == "__main__":
     tester()
+
 
 
