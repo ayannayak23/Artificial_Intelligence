@@ -3,6 +3,7 @@
 Hinger Project
 Coursework 001 for: CMP-6058A Artificial Intelligence
 
+Task 2: Path
 Implements search algorithms (BFS, DFS, IDDFS, and A*) for Task 2.
 
 @author: B9 (1004411839, 100434969, and 100440712)
