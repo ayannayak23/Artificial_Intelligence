@@ -3,7 +3,7 @@
 Hinger Project
 Coursework 001 for: CMP-6058A Artificial Intelligence
 
-Includes a State class for Task 1
+Defines the State class for Task 1
 
 @author: B9 (1004411839, 100434969, and 100440712)
 @date: 08/10/2025
@@ -147,4 +147,5 @@ def tester():
 # Call a tester function only when this file is executed
 if __name__ == "__main__":
     tester()
+
 
