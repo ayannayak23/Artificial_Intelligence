@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-# Streaming Hinger Game Core
-# Shared helpers and play_stream for streamed gameplay with delays
+"""
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
+
+Streaming Hinger Game Core
+Provides core functions for streamed gameplay
+
+@author: B9 (1004411839, 100434969, 100440712)
+@date: 30/10/2025
+"""
 
 import time
 from typing import Optional, Tuple
