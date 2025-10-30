@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Task 4: Game Loop for Hinger Game
+Hinger Project
+Coursework 001 for: CMP-6058A Artificial Intelligence
+
+Task 4: Game Loop
 Implements the complete game flow with win/draw/illegal move detection.
 
-@author: Ahmed
+@author: B9 (1004411839, 100434969, and 100440712)
+@date: 20/10/2025
 """
 
 from a1_state import State
